@@ -1,0 +1,25 @@
+name: YOLO Badge
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Add YOLO badge
+      env:
+        REPO: ${{ github.repository }}
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        curl -X POST https://api.github.com/repos/$REPO/dispatches \
+        -H 'Authorization: Bearer $TOKEN' \
+        -H 'Accept: application/vnd.github.everest-preview+json' \
+        -H 'Content-Type: application/json' \
+        -d '{
+          "event_type": "yolo-badge"
+        }'
